@@ -1,15 +1,7 @@
-    jp EntryPoint               ; Jump to the entry point
-    db 0,0,0,0,0                ; Padding to 0008h
-    
-    include "src-z80/core/macro.z80"
-    include "src-z80/player/pcm.z80"
-    include "src-z80/core/main.z80"
-    include "src-z80/core/bgm.z80"
-    include "src-z80/core/sfx.z80"
-    include "src-z80/core/direct.z80"
-    include "src-z80/player/fm.z80"
-    include "src-z80/player/psg.z80"
-    include "src-z80/player/misc.z80"
-    
-    include "src-z80/player/freq.z80"
-    include "src-z80/core/vars.z80"
+;****************************************************************************
+; Echo for NTSC machines: notes are tuned to the NTSC clocks
+; (YM2612 7.670453 MHz, PSG 3.579545 MHz). For PAL, see build-pal.z80.
+;****************************************************************************
+
+ECHO_PAL: equ 0
+    include "src-z80/echo.z80"

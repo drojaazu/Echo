@@ -238,12 +238,16 @@ $36nn/$36nnnn: Set frequency FM channel #6
     and 3rd bytes specify the new frequency in the same format as the YM2612
     expects. The 2nd byte is register $A4+, the 3rd byte is register $A0+.
 
-    Echo uses the following frequency values for each semitone:
+    Echo uses the following frequency values for each semitone (the values
+    in brackets are those of the PAL build, built/prog-z80-pal.bin):
 
-        C  - 644 | E  - 810 | G# - 1021
-        C# - 681 | F  - 858 | A  - 1081
-        D  - 722 | F# - 910 | A# - 1146
-        D# - 765 | G  - 964 | B  - 1214
+        C  - 644 (650) | E  - 810 (817) | G# - 1021 (1030)
+        C# - 681 (687) | F  - 858 (866) | A  - 1081 (1091)
+        D  - 722 (729) | F# - 910 (918) | A# - 1146 (1157)
+        D# - 765 (772) | G  - 964 (973) | B  - 1214 (1225)
+
+    These events write the value as given, so a song that uses the 3-byte
+    form is tuned for one machine type only.
 
 $38nn/$38nnnn: Set frequency PSG channel #1
 $39nn/$39nnnn: Set frequency PSG channel #2
@@ -268,22 +272,43 @@ $3Ann/$3Annnn: Set frequency PSG channel #3
     instruments from working. It will start working again whenever a new note
     or the 2-byte version of this event is used.
 
-    Echo uses the following frequency values for each semitone:
+    Echo uses the following frequency values for each semitone (NTSC build,
+    built/prog-z80.bin):
     
            |Oct.0|Oct.1|Oct.2|Oct.3|Oct.4|Oct.5
         ---|-----|-----|-----|-----|-----|-----
-        C  | 851 | 425 | 212 | 106 |  53 |  26
-        C# | 803 | 401 | 200 | 100 |  50 |  25
-        D  | 758 | 379 | 189 |  94 |  47 |  23
-        D# | 715 | 357 | 178 |  89 |  44 |  22
-        E  | 675 | 337 | 168 |  84 |  42 |  21
-        F  | 637 | 318 | 159 |  79 |  39 |  19
-        F# | 601 | 300 | 150 |  75 |  37 |  18
-        G  | 568 | 284 | 142 |  71 |  35 |  17
-        G# | 536 | 268 | 134 |  67 |  33 |  16
-        A  | 506 | 253 | 126 |  63 |  31 |  15
-        A# | 477 | 238 | 119 |  59 |  29 |  14
-        B  | 450 | 225 | 112 |  56 |  28 |  14
+        C  | 855 | 428 | 214 | 107 |  53 |  27
+        C# | 807 | 404 | 202 | 101 |  50 |  25
+        D  | 762 | 381 | 190 |  95 |  48 |  24
+        D# | 719 | 360 | 180 |  90 |  45 |  22
+        E  | 679 | 339 | 170 |  85 |  42 |  21
+        F  | 641 | 320 | 160 |  80 |  40 |  20
+        F# | 605 | 302 | 151 |  76 |  38 |  19
+        G  | 571 | 285 | 143 |  71 |  36 |  18
+        G# | 539 | 269 | 135 |  67 |  34 |  17
+        A  | 508 | 254 | 127 |  64 |  32 |  16
+        A# | 480 | 240 | 120 |  60 |  30 |  15
+        B  | 453 | 226 | 113 |  57 |  28 |  14
+
+    And these in the PAL build (built/prog-z80-pal.bin):
+
+           |Oct.0|Oct.1|Oct.2|Oct.3|Oct.4|Oct.5
+        ---|-----|-----|-----|-----|-----|-----
+        C  | 847 | 424 | 212 | 106 |  53 |  26
+        C# | 800 | 400 | 200 | 100 |  50 |  25
+        D  | 755 | 377 | 189 |  94 |  47 |  24
+        D# | 713 | 356 | 178 |  89 |  45 |  22
+        E  | 673 | 336 | 168 |  84 |  42 |  21
+        F  | 635 | 317 | 159 |  79 |  40 |  20
+        F# | 599 | 300 | 150 |  75 |  37 |  19
+        G  | 566 | 283 | 141 |  71 |  35 |  18
+        G# | 534 | 267 | 133 |  67 |  33 |  17
+        A  | 504 | 252 | 126 |  63 |  31 |  16
+        A# | 476 | 238 | 119 |  59 |  30 |  15
+        B  | 449 | 224 | 112 |  56 |  28 |  14
+
+    As with FM, the 3-byte form writes the value as given, so a song that
+    uses it is tuned for one machine type only.
 
 $3Bnn: Set noise type PSG channel #4
 

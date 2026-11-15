@@ -1,0 +1,7 @@
+;****************************************************************************
+; Echo for PAL machines: notes are tuned to the PAL clocks
+; (YM2612 7.600489 MHz, PSG 3.546895 MHz). For NTSC, see build.z80.
+;****************************************************************************
+
+ECHO_PAL: equ 1
+    include "src-z80/echo.z80"

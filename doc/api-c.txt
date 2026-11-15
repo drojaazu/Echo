@@ -18,6 +18,10 @@ change the blob, just use the included blob2c tool. It's invoked as follows:
 
    blob2c «input.bin» «output.h»
 
+"echoblob.h" holds two blobs: Echo tuned for NTSC machines, and Echo tuned
+for PAL machines. Define ECHO_PAL when compiling "echo.c" (e.g. -DECHO_PAL)
+to use the PAL one; NTSC is the default.
+
 =============================================================================
 
 *** Initialization ***
