@@ -16,6 +16,52 @@
 
 =============================================================================
 
+*** About this fork ***
+
+This is an altered version of Echo, maintained at
+https://github.com/drojaazu/echo. It is not the original software, which is
+Sik's: https://github.com/sikthehedgehog/echo
+
+It is based on upstream commit e326c87 (Echo 1.68a). Its changes are all in
+the Z80 program; the 68000 side and the API are the same.
+
+   * Echo comes in two builds, one tuned for NTSC machines and one for PAL
+     machines, and both FM and PSG notes are tuned to the clocks of the
+     machine the build is for:
+
+        built/prog-z80.bin      NTSC (src-z80/build.z80)
+        built/prog-z80-pal.bin  PAL  (src-z80/build-pal.z80)
+
+     c/echoblob.h holds both; define ECHO_PAL when compiling c/echo.c to
+     use the PAL one. Upstream has one build: its FM table is tuned for NTSC,
+     and its PSG table sits between the NTSC and PAL clocks, with each
+     octave above the lowest made by halving the one below and rounding
+     down. So upstream's PSG notes play about 10 cents sharp of FM notes on
+     either machine type, and up to 119 cents sharp at the top (A#8 and B-8
+     share a value).
+
+     In the NTSC build, the FM table is Echo's own and the PSG table is
+     round(3579545 / 32 / f) with A-4 = 440 Hz. In the PAL build, the FM
+     table is Echo's scaled by the ratio of the clocks, and the PSG table is
+     round(3546895 / 32 / f). doc/esf.txt lists both.
+
+     NOTE: the NTSC build was checked on an actual Japanese NTSC Mega Drive:
+     every PSG note plays at the frequency its period predicts. The PAL values
+     are calculated from the PAL clocks and have only been tested in emulators,
+     not on a PAL machine.
+
+     Music tuned by ear against upstream's table will come out a little
+     flatter in PSG, more in the top octaves, and periodic noise played from
+     PSG3 notes moves with it. Songs that set raw frequencies with the
+     3-byte $30-$3A events are not retuned by either build.
+
+   * A PSG instrument's semitone shift can't take a note past either end of
+     the frequency table any more: the shifted note is clamped to C-3..B-8.
+     Upstream reads past the table there, and the bytes it finds can write
+     another channel's volume instead of a frequency.
+
+=============================================================================
+
 WARNING: if you used Echo_SetVolumeEx in Echo 1.4, beware that the ABI
 changed to require 16 bytes instead of 13. Currently the extra bytes are
 ignored, but consider adapting your code (just set them to zeroes).
@@ -40,10 +86,11 @@ https://github.com/oerg866/xm2esf
 
 *** How to use ***
 
-If you want to use Echo from asm, take the blob from "built/prog-z80.bin" and
-the "src-68k/echo.68k" asm file. Include the latter in your source code, then
-go to the @Z80Program label (should be near the end of the file) and replace
-the string with the path to the blob.
+If you want to use Echo from asm, take the blob from "built/prog-z80.bin" (or
+"built/prog-z80-pal.bin" for PAL machines) and the "src-68k/echo.68k" asm
+file. Include the latter in your source code, then go to the @Z80Program
+label (should be near the end of the file) and replace the string with the
+path to the blob.
 
 If you want to use Echo from C, check the "c" subdirectory. You will find the
 required files. It should work with any Mega Drive C devkit that provides the
@@ -58,6 +105,7 @@ documentation for the C API is in "doc/c-api.txt".
 
    * Make sure the root of this source code tree is the current directory
    * Assemble src-z80/build.z80 to bin/prog-z80.bin
+   * Assemble src-z80/build-pal.z80 to bin/prog-z80-pal.bin (PAL machines)
    * Assemble tester/build.68k to bin/prog-68k.bin (optional)
 
 If you're using Linux, you can use build.sh to build the Echo binary (you'll
